@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Bandit Blast</title>
+<!-- Web demo build (shareable link). Same game files as the YouTube build, without the YouTube Playables SDK:
+     outside YouTube the game saves in the browser and video offers are hidden. -->
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #7cc6ff; }
+  body { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+  canvas { display: block; width: 100%; height: 100%; outline: none; }
+</style>
+</head>
+<body>
+<canvas id="c" tabindex="0"></canvas>
+<script id="loader">
+// Loads the game scripts in order. Each address carries the build tag (?v=) so a new version never runs on cached
+// old files; if a host refuses the tag, that file loads by its plain name instead. make-single.sh replaces this block.
+(function () {
+  var V = '0.6.7', files = ['sfx', 'run', 'art', 'world', 'game', 'view', 'ui', 'main'], i = 0;
+  function next(tag) {
+    if (i >= files.length) return;
+    var s = document.createElement('script'), name = 'js/' + files[i] + '.js';
+    s.src = tag ? name + '?v=' + V : name;
+    s.onload = function () { i++; next(true); };
+    s.onerror = function () { if (tag) next(false); };
+    document.body.appendChild(s);
+  }
+  next(true);
+})();
+</script>
+<script>document.getElementById('c').addEventListener('pointerdown', (e) => { try { e.target.focus({ preventScroll: true }); } catch (err) {} });</script>
+</body>
+</html>
